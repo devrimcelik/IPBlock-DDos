@@ -46,6 +46,7 @@ namespace IPBlock
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -100,7 +101,7 @@ namespace IPBlock
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(270, 17);
+            this.textBox3.Location = new System.Drawing.Point(182, 17);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(49, 20);
             this.textBox3.TabIndex = 5;
@@ -109,7 +110,7 @@ namespace IPBlock
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(112, 21);
+            this.label2.Location = new System.Drawing.Point(24, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 13);
             this.label2.TabIndex = 6;
@@ -133,7 +134,7 @@ namespace IPBlock
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 20);
+            this.checkBox1.Location = new System.Drawing.Point(408, 86);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(80, 17);
             this.checkBox1.TabIndex = 8;
@@ -178,11 +179,22 @@ namespace IPBlock
             this.textBox4.TabIndex = 12;
             this.textBox4.Text = resources.GetString("textBox4.Text");
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(270, 86);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(97, 17);
+            this.checkBox2.TabIndex = 13;
+            this.checkBox2.Text = "Show Location";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(807, 651);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -220,6 +232,7 @@ namespace IPBlock
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

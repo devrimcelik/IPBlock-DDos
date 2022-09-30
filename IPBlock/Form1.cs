@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +71,46 @@ namespace IPBlock
             }
         }
 
+
+        private static byte[] PostEncoding(string _postData)
+        {
+            //PostEncoding(postData); eski
+            return Encoding.UTF8.GetBytes(_postData);
+        }
+
+        public string Country(string ip)
+        {
+            string sonuc = "";
+            var request = (HttpWebRequest)WebRequest.Create("https://api.iplocation.net/?ip="+ip);
+
+            var postData = "un=webapi";
+            postData += "&p=webapi";
+            var data = PostEncoding(postData);
+
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            try
+            {
+                JObject json = JObject.Parse(responseString);
+
+               sonuc = json["country_name"].ToString();
+            }
+            catch (Exception ex)
+            {
+            }
+            return sonuc;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -103,9 +145,15 @@ namespace IPBlock
 
             foreach (var item in groups)
             {
-                if (item.MetricCount > sinir && !item.MetricName.Contains("127.0.0.1") && !item.MetricName.Contains("0.0.0.0"))
+                if (item.MetricCount > sinir && !item.MetricName.Contains("127.0.0.1") && !item.MetricName.Contains("0.0.0.0") &&item.MetricName.Split('.').Length==4)
                 {
-                    textBox1.Text += item.MetricName + " Count:" + item.MetricCount + Environment.NewLine;
+                    string _country = "";
+                    if (checkBox2.Checked)
+                    {
+                        _country = Country(item.MetricName);
+                    }
+
+                    textBox1.Text += item.MetricName + " Count:" + item.MetricCount +" " + _country + " " + Environment.NewLine;
                     textBox2.Text += @"netsh advfirewall firewall add rule name = ""Block " + item.MetricName + @""" Dir = In Action = Block RemoteIP =" + item.MetricName + Environment.NewLine; ;
                 }
             }
