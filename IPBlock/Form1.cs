@@ -53,11 +53,20 @@ namespace IPBlock
                     {
 
                     }
+
+
+
                     foreach (var item in groups)
                     {
                         if (item.MetricCount> sinir && !item.MetricName.Contains("127.0.0.1") && !item.MetricName.Contains("0.0.0.0"))
                         {
-                            textBox1.Text += item.MetricName + " Count:" + item.MetricCount + Environment.NewLine;
+
+                            string _country = "";
+                            if (checkBox2.Checked)
+                            {
+                                _country = Country(item.MetricName.Trim());
+                            }
+                            textBox1.Text += item.MetricName + " Count:" + item.MetricCount  +" " + _country + " " + Environment.NewLine;
                             textBox2.Text += @"netsh advfirewall firewall add rule name = ""Block " + item.MetricName +  @""" Dir = In Action = Block RemoteIP =" + item.MetricName + Environment.NewLine; ;
                         }
                     }
@@ -150,7 +159,7 @@ namespace IPBlock
                     string _country = "";
                     if (checkBox2.Checked)
                     {
-                        _country = Country(item.MetricName);
+                        _country = Country(item.MetricName.Trim());
                     }
 
                     textBox1.Text += item.MetricName + " Count:" + item.MetricCount +" " + _country + " " + Environment.NewLine;
