@@ -47,6 +47,7 @@ namespace IPBlock
             this.label6 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -189,11 +190,22 @@ namespace IPBlock
             this.checkBox2.Text = "Show Location";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(310, 14);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(123, 23);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "Mail Block Control";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(807, 651);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label6);
@@ -233,6 +245,7 @@ namespace IPBlock
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

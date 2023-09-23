@@ -179,5 +179,82 @@ namespace IPBlock
             if (checkBox1.Checked)
             button2_Click(null, null);
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] endPoints = ipGlobalProperties.GetActiveTcpListeners();
+            IPEndPoint dnsEndPoint = endPoints.FirstOrDefault(ge => ge.Port == 53);
+
+            // Get the active TCP connections on the DNS server
+            TcpConnectionInformation[] connections = ipGlobalProperties.GetActiveTcpConnections();
+            foreach (TcpConnectionInformation connection in connections)
+            {
+                if (connection.LocalEndPoint.Equals(dnsEndPoint))
+                {
+
+                    textBox1.Text += "Remote endpoint:"+ connection.RemoteEndPoint;
+                   //Console.WriteLine("Remote endpoint: {0}", connection.RemoteEndPoint);
+                }
+            }
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+
+            textBox1.Text = "";
+            textBox2.Text = "";
+            try
+            {
+                IEnumerable<string> lines = File.ReadLines(@"C:\Program Files (x86)\hMailServer\Logs\hmailserver_events.log");
+                label1.Text = lines.Count<string>().ToString();
+                List<string> asList = lines.ToList<string>();
+                IEnumerable<string> cropped = asList.Select(word =>
+                                word.Substring(40).Split(':')[1].Replace("\"","").Trim());
+
+                //textBox1.Text += cropped.FirstOrDefault() + Environment.NewLine;
+
+                var groups = cropped.GroupBy(n => n)
+                     .Select(n => new
+                     {
+                         MetricName = n.Key,
+                         MetricCount = n.Count()
+                     })
+                     .OrderByDescending(n => n.MetricCount);
+                int sinir = 20;
+                try
+                {
+                    sinir = Convert.ToInt32(textBox3.Text);
+                }
+                catch
+                {
+
+                }
+
+
+
+                foreach (var item in groups)
+                {
+                    if (item.MetricCount > sinir && !item.MetricName.Contains("127.0.0.1") && !item.MetricName.Contains("0.0.0.0"))
+                    {
+
+                        string _country = "";
+                        if (checkBox2.Checked)
+                        {
+                            _country = Country(item.MetricName.Trim());
+                        }
+                        textBox1.Text += item.MetricName + " Count:" + item.MetricCount + " " + _country + " " + Environment.NewLine;
+                        textBox2.Text += @"netsh advfirewall firewall add rule name = ""Block " + item.MetricName + @""" Dir = In Action = Block RemoteIP =" + item.MetricName + Environment.NewLine; ;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
+                $"Details:\n\n{ex.StackTrace}");
+            }
+
+        }
     }
 }
